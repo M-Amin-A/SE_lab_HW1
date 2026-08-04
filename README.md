@@ -73,7 +73,7 @@ main ─────────────────────────
 | 18 | `b2289ac` | `chore: add .nojekyll for GitHub Pages static hosting` | dev | فایل `.nojekyll` |
 | 19 | `27eadaa` | `fix: correct email placeholder format in contact form` | hotfix | رفع placeholder |
 | 20 | `7aea900` | `style: add fade-in animation to hero section` | dev | انیمیشن Hero |
-| 21 | *(این commit)* | `docs: add implementation report to README` | dev | گزارش کامل |
+| 21 | `4ad6c4b` | `docs: add implementation report with branches, commits and conflicts` | dev | گزارش کامل |
 
 ---
 
