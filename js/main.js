@@ -5,6 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initActiveNavLink();
+    initContactForm();
 });
 
 /**
@@ -50,4 +51,19 @@ function initActiveNavLink() {
             }
         });
     });
+}
+
+/**
+ * Handle contact form submission
+ */
+function initContactForm() {
+    const form = document.getElementById('contactForm');
+
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('پیام شما با موفقیت ارسال شد! (نمایشی)');
+            form.reset();
+        });
+    }
 }
