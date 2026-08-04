@@ -49,7 +49,7 @@ main ─────────────────────────
 
 ---
 
-### تاریخچه Commitها (۲۱ commit)
+### تاریخچه Commitها (۲۲ commit)
 
 | # | Hash | پیام Commit | شاخه | توضیح |
 |---|------|-------------|------|-------|
@@ -74,6 +74,128 @@ main ─────────────────────────
 | 19 | `27eadaa` | `fix: correct email placeholder format in contact form` | hotfix | رفع placeholder |
 | 20 | `7aea900` | `style: add fade-in animation to hero section` | dev | انیمیشن Hero |
 | 21 | `4ad6c4b` | `docs: add implementation report with branches, commits and conflicts` | dev | گزارش کامل |
+| 22 | `8ee4c9b` | `docs: update commit hash in README report table` | dev | به‌روزرسانی hash |
+
+---
+
+### دستورات Git استفاده‌شده
+
+در طول پیاده‌سازی، دستورات زیر به‌صورت دستی در ترمینال اجرا شدند:
+
+#### ۱. راه‌اندازی اولیه مخزن
+
+```bash
+# اتصال مخزن محلی به remote روی GitHub
+git remote add origin https://github.com/M-Amin-A/SE_lab_HW1
+
+# مشاهده وضعیت فایل‌ها (tracked / untracked / modified)
+git status
+```
+
+#### ۲. Stage و Commit
+
+```bash
+# افزودن فایل مشخص به staging area
+git add .gitignore
+git add index.html css/styles.css
+
+# ثبت تغییرات با پیام معنادار
+git commit -m "chore: add .gitignore for Node, IDE and OS files"
+git commit -m "feat: add basic HTML skeleton with RTL support"
+```
+
+**توضیح:** هر commit یک تغییر مشخص در فرآیند توسعه را ثبت می‌کند (مثلاً افزودن feature، رفع باگ، یا به‌روزرسانی مستندات).
+
+#### ۳. کار با شاخه‌ها (Branch)
+
+```bash
+# ایجاد و جابجایی به شاخه dev
+git checkout -b dev
+
+# ایجاد شاخه feature برای توسعه یک قابلیت
+git checkout -b feature/navigation
+git checkout -b feature/projects
+
+# ایجاد شاخه hotfix برای رفع باگ
+git checkout -b hotfix/fix-contact-placeholder
+
+# بازگشت به شاخه dev
+git checkout dev
+
+# مشاهده لیست شاخه‌ها
+git branch -v
+```
+
+**توضیح:**
+- `dev` — شاخه توسعه اصلی
+- `feature/*` — هر feature در شاخه جداگانه
+- `hotfix/*` — رفع سریع باگ بدون انتظار برای release بعدی
+
+#### ۴. ادغام (Merge)
+
+```bash
+# ادغام feature/navigation در dev
+git checkout dev
+git merge feature/navigation -m "merge: integrate navigation feature into dev"
+
+# ادغام feature/projects در dev
+git merge feature/projects -m "merge: integrate projects and contact features into dev"
+
+# ادغام hotfix در dev (fast-forward)
+git merge hotfix/fix-contact-placeholder -m "merge: apply hotfix for contact form placeholder"
+```
+
+**توضیح:** merge تغییرات یک شاخه را در شاخه فعلی ادغام می‌کند. در صورت تداخل، Git conflict ایجاد می‌کند.
+
+#### ۵. رفع Conflict
+
+```bash
+# هنگام merge، Git conflict را گزارش می‌دهد:
+# CONFLICT (content): Merge conflict in index.html
+
+# پس از ویرایش دستی فایل‌های conflict‌دار:
+git add index.html css/styles.css
+git commit -m "merge: resolve conflict between dev and feature/navigation in index.html"
+```
+
+**توضیح:** markerهای `<<<<<<<`، `=======`، `>>>>>>>` در فایل نشان‌دهنده conflict هستند. پس از انتخاب نسخه نهایی، فایل را add و commit کنید.
+
+#### ۶. مشاهده تاریخچه
+
+```bash
+# لیخت commitها
+git log --oneline
+
+# تاریخچه همه شاخه‌ها
+git log --oneline --all --graph
+
+# مشاهده diff تغییرات
+git diff
+```
+
+#### ۷. Push به GitHub
+
+```bash
+# ارسال شاخه dev به remote
+git push -u origin dev
+
+# ارسال همه شاخه‌ها
+git push -u origin main dev feature/navigation feature/projects hotfix/fix-contact-placeholder
+```
+
+**توضیح:** `-u` (یا `--set-upstream`) ارتباط شاخه محلی با remote را برقرار می‌کند.
+
+#### ۸. Pull Request (روی GitHub)
+
+ادغام با `main` فقط از طریق Pull Request انجام می‌شود:
+
+```bash
+# پس از push شاخه dev:
+# 1. به github.com/M-Amin-A/SE_lab_HW1 بروید
+# 2. Pull requests → New pull request
+# 3. base: main ← compare: dev
+# 4. Create pull request → Merge pull request
+```
 
 ---
 
@@ -93,14 +215,67 @@ main ─────────────────────────
 
 ---
 
-### GitHub Actions — استقرار خودکار
+### GitHub Actions — استقرار خودکار (Deploy)
 
-Workflow در `.github/workflows/deploy.yml` با trigger روی push به `main`:
+#### نحوه کار
 
-1. Checkout مخزن
-2. Setup GitHub Pages
-3. Upload artifact (فایل‌های استاتیک)
-4. Deploy به GitHub Pages
+فایل `.github/workflows/deploy.yml` workflow استقرار را تعریف می‌کند. با هر **push به شاخه `main`**، GitHub Actions به‌صورت خودکار اجرا می‌شود:
+
+```
+Push to main  →  GitHub Actions Trigger  →  Build  →  Deploy  →  GitHub Pages
+```
+
+#### مراحل Workflow
+
+| مرحله | Action | توضیح |
+|-------|--------|-------|
+| 1 | `actions/checkout@v4` | دریافت کد از مخزن |
+| 2 | `actions/configure-pages@v5` | پیکربندی GitHub Pages |
+| 3 | `actions/upload-pages-artifact@v3` | آپلود فایل‌های استاتیک (HTML, CSS, JS) |
+| 4 | `actions/deploy-pages@v4` | استقرار روی GitHub Pages |
+
+#### Trigger
+
+```yaml
+on:
+  push:
+    branches: [main]    # فقط push به main
+  workflow_dispatch:    # اجرای دستی از تب Actions
+```
+
+#### پیش‌نیازهای فعال‌سازی Deploy
+
+1. **Push شاخه `dev` به `main`** (از طریق Pull Request)
+2. **Settings → Pages → Source:** انتخاب **GitHub Actions**
+3. **Settings → Actions → General:** اجازه اجرای workflow
+
+#### فایل `.nojekyll`
+
+این فایل خالی در root پروژه قرار دارد تا GitHub Pages از Jekyll برای پردازش فایل‌ها استفاده نکند و فایل‌های استاتیک مستقیماً serve شوند.
+
+#### آدرس سایت
+
+پس از deploy موفق:
+
+| محیط | URL |
+|------|-----|
+| GitHub Pages | [https://m-amin-a.github.io/SE_lab_HW1/](https://m-amin-a.github.io/SE_lab_HW1/) |
+
+#### بررسی وضعیت Deploy
+
+```bash
+# در GitHub:
+# Repository → Actions → Deploy to GitHub Pages → آخرین run
+
+# یا:
+# Repository → Settings → Pages → آدرس سایت و وضعیت deployment
+```
+
+#### اجرای دستی Deploy
+
+1. به تب **Actions** در مخزن بروید
+2. workflow **Deploy to GitHub Pages** را انتخاب کنید
+3. **Run workflow** → branch: `main` → **Run workflow**
 
 ---
 
