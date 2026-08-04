@@ -1,10 +1,13 @@
 # SE Lab HW1 - Static Frontend
 
+<div dir="rtl">
+
 پروژه آزمایشگاه مهندسی نرم‌افزار - تمرین اول
 
 ## درباره پروژه
 
 یک وب‌سایت استاتیک (Static Frontend) با **HTML، CSS و JavaScript خالص** (بدون فریم‌ورک) پیاده‌سازی شده است. این پروژه شامل منوی ناوبری، بخش‌های Hero، About، Projects، Contact Form و Footer می‌باشد.
+
 
 **آدرس GitHub Pages:** [https://m-amin-a.github.io/SE_lab_HW1/](https://m-amin-a.github.io/SE_lab_HW1/)
 
@@ -39,6 +42,8 @@
 
 #### نمودار جریان شاخه‌ها
 
+<div dir="ltr">
+
 ```
 main ─────────────────────────────────────────────► (via PR from dev)
   │
@@ -46,6 +51,8 @@ main ─────────────────────────
             ├── feature/projects ────► merge (conflict #2)
             └── hotfix/fix-contact-placeholder ──► fast-forward merge
 ```
+
+</div>
 
 ---
 
@@ -84,6 +91,8 @@ main ─────────────────────────
 
 #### ۱. راه‌اندازی اولیه مخزن
 
+<div dir="ltr">
+
 ```bash
 # اتصال مخزن محلی به remote روی GitHub
 git remote add origin https://github.com/M-Amin-A/SE_lab_HW1
@@ -92,7 +101,11 @@ git remote add origin https://github.com/M-Amin-A/SE_lab_HW1
 git status
 ```
 
+</div>
+
 #### ۲. Stage و Commit
+
+<div dir="ltr">
 
 ```bash
 # افزودن فایل مشخص به staging area
@@ -104,9 +117,14 @@ git commit -m "chore: add .gitignore for Node, IDE and OS files"
 git commit -m "feat: add basic HTML skeleton with RTL support"
 ```
 
+</div>
+
+
 **توضیح:** هر commit یک تغییر مشخص در فرآیند توسعه را ثبت می‌کند (مثلاً افزودن feature، رفع باگ، یا به‌روزرسانی مستندات).
 
 #### ۳. کار با شاخه‌ها (Branch)
+
+<div dir="ltr">
 
 ```bash
 # ایجاد و جابجایی به شاخه dev
@@ -126,12 +144,16 @@ git checkout dev
 git branch -v
 ```
 
+</div>
+
 **توضیح:**
 - `dev` — شاخه توسعه اصلی
 - `feature/*` — هر feature در شاخه جداگانه
 - `hotfix/*` — رفع سریع باگ بدون انتظار برای release بعدی
 
 #### ۴. ادغام (Merge)
+
+<div dir="ltr">
 
 ```bash
 # ادغام feature/navigation در dev
@@ -145,9 +167,14 @@ git merge feature/projects -m "merge: integrate projects and contact features in
 git merge hotfix/fix-contact-placeholder -m "merge: apply hotfix for contact form placeholder"
 ```
 
+</div>
+
+
 **توضیح:** merge تغییرات یک شاخه را در شاخه فعلی ادغام می‌کند. در صورت تداخل، Git conflict ایجاد می‌کند.
 
 #### ۵. رفع Conflict
+
+<div dir="ltr">
 
 ```bash
 # هنگام merge، Git conflict را گزارش می‌دهد:
@@ -158,9 +185,13 @@ git add index.html css/styles.css
 git commit -m "merge: resolve conflict between dev and feature/navigation in index.html"
 ```
 
+</div>
+
 **توضیح:** markerهای `<<<<<<<`، `=======`، `>>>>>>>` در فایل نشان‌دهنده conflict هستند. پس از انتخاب نسخه نهایی، فایل را add و commit کنید.
 
 #### ۶. مشاهده تاریخچه
+
+<div dir="ltr">
 
 ```bash
 # لیخت commitها
@@ -173,7 +204,11 @@ git log --oneline --all --graph
 git diff
 ```
 
+</div>
+
 #### ۷. Push به GitHub
+
+<div dir="ltr">
 
 ```bash
 # ارسال شاخه dev به remote
@@ -183,11 +218,16 @@ git push -u origin dev
 git push -u origin main dev feature/navigation feature/projects hotfix/fix-contact-placeholder
 ```
 
+</div>
+
+
 **توضیح:** `-u` (یا `--set-upstream`) ارتباط شاخه محلی با remote را برقرار می‌کند.
 
 #### ۸. Pull Request (روی GitHub)
 
 ادغام با `main` فقط از طریق Pull Request انجام می‌شود:
+
+<div dir="ltr">
 
 ```bash
 # پس از push شاخه dev:
@@ -196,6 +236,8 @@ git push -u origin main dev feature/navigation feature/projects hotfix/fix-conta
 # 3. base: main ← compare: dev
 # 4. Create pull request → Merge pull request
 ```
+
+</div>
 
 ---
 
@@ -221,9 +263,14 @@ git push -u origin main dev feature/navigation feature/projects hotfix/fix-conta
 
 فایل `.github/workflows/deploy.yml` workflow استقرار را تعریف می‌کند. با هر **push به شاخه `main`**، GitHub Actions به‌صورت خودکار اجرا می‌شود:
 
+<div dir="ltr">
+
 ```
 Push to main  →  GitHub Actions Trigger  →  Build  →  Deploy  →  GitHub Pages
 ```
+
+</div>
+
 
 #### مراحل Workflow
 
@@ -236,12 +283,17 @@ Push to main  →  GitHub Actions Trigger  →  Build  →  Deploy  →  GitHub 
 
 #### Trigger
 
+<div dir="ltr">
+
 ```yaml
 on:
   push:
     branches: [main]    # فقط push به main
   workflow_dispatch:    # اجرای دستی از تب Actions
 ```
+
+</div>
+
 
 #### پیش‌نیازهای فعال‌سازی Deploy
 
@@ -263,6 +315,8 @@ on:
 
 #### بررسی وضعیت Deploy
 
+<div dir="ltr">
+
 ```bash
 # در GitHub:
 # Repository → Actions → Deploy to GitHub Pages → آخرین run
@@ -270,6 +324,8 @@ on:
 # یا:
 # Repository → Settings → Pages → آدرس سایت و وضعیت deployment
 ```
+
+</div>
 
 #### اجرای دستی Deploy
 
@@ -303,6 +359,8 @@ Branch Protection Rule روی GitHub:
 
 ### ساختار پروژه
 
+<div dir="ltr">
+
 ```
 SE_lab_HW1/
 ├── .github/
@@ -319,11 +377,15 @@ SE_lab_HW1/
 └── README.md
 ```
 
+</div>
+
 ---
 
 ### اجرای محلی
 
 فایل `index.html` را در مرورگر باز کنید، یا:
+
+<div dir="ltr">
 
 ```bash
 # با Python
@@ -332,6 +394,8 @@ python -m http.server 8080
 # با Node.js
 npx serve .
 ```
+
+</div>
 
 ---
 
@@ -427,3 +491,5 @@ Gemini 3.6 Flash
 ## نویسنده
 
 محمدامین عباس فر
+
+</div>
